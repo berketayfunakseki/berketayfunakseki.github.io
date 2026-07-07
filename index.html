@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berke Tayfun Akseki — Backend · ML · Data Engineer</title>
+<meta name="description" content="Berke Tayfun Akseki — Backend, ML & Data Engineer. LUISS CS + Management graduate. FastAPI, Docker, scikit-learn. Open to relocation: Zurich, Basel, Zug, Milan.">
+<link rel="canonical" href="https://berketayfunakseki.com/">
+<meta property="og:title" content="Berke Tayfun Akseki — Engineering Portfolio">
+<meta property="og:description" content="Backend, ML & Data Engineer. 6 shipped projects. Open to relocation — Zurich · Basel · Milan.">
+<meta property="og:url" content="https://berketayfunakseki.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Berke Tayfun Akseki","url":"https://berketayfunakseki.com","jobTitle":"Backend & ML Engineer","alumniOf":"LUISS Guido Carli University","email":"berketayfunakseki@gmail.com","sameAs":["https://github.com/berketayfunakseki","https://linkedin.com/in/berke-tayfun-akseki-489b842ba"]}
+
+// ── JD MATCHER (client-side TF-style keyword match) ──
+const PROFILE = {
+  "python":3,"sql":3,"fastapi":3,"docker":3,"scikit-learn":2,"sklearn":2,"pandas":2,"numpy":2,
+  "r":2,"machine learning":3,"ml":3,"data analysis":2,"data analytics":2,"etl":2,"api":2,"rest":2,
+  "rag":2,"faiss":2,"nlp":1,"tf-idf":2,"streamlit":2,"django":2,"postgresql":2,"postgres":2,"sqlite":2,
+  "git":2,"github":2,"ci/cd":2,"github actions":2,"power bi":2,"knime":1,"excel":1,"jwt":1,"pydantic":1,
+  "c#":2,"unity":2,"javascript":1,"html":1,"css":1,"data engineering":2,"backend":3,"pipelines":2,
+  "statistics":2,"econometrics":2,"panel data":1,"dashboards":1,"kpi":1,"feature engineering":1,
+  "english":1,"french":1,"italian":1,"turkish":1,"bachelor":1,"computer science":2,"junior":1,"visualization":1,"visualisation":1
+};
+const COMMON = new Set(["aws","kubernetes","react","java","scala","spark","hadoop","tensorflow","pytorch","go","golang","rust","c++","azure","gcp","kafka","airflow","tableau","node","typescript","php","ruby","swift","kotlin","mongodb","redis","graphql","terraform","jenkins","snowflake","databricks","dbt"]);
+document.getElementById('matchBtn').addEventListener('click',()=>{
+  const jd=document.getElementById('jdInput').value.toLowerCase();
+  if(jd.trim().length<30){document.getElementById('jdInput').style.borderColor='rgba(255,184,77,.5)';return;}
+  let hitW=0,totW=0;const hits=[],misses=new Set();
+  for(const[kw,w]of Object.entries(PROFILE)){
+    const re=new RegExp('\\b'+kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b');
+    if(re.test(jd)){hitW+=w;totW+=w;hits.push(kw);}
+  }
+  for(const kw of COMMON){
+    if(new RegExp('\\b'+kw.replace(/[+#]/g,'\\$&')+'\\b').test(jd)){misses.add(kw);totW+=1.2;}
+  }
+  let score=totW>0?Math.round(hitW/totW*100):0;
+  if(hits.length>=5)score=Math.max(score,62);
+  score=Math.min(score,97);
+  const res=document.getElementById('matchRes');res.classList.add('show');
+  const arc=document.getElementById('gaugeArc');
+  requestAnimationFrame(()=>{arc.style.strokeDashoffset=408-(408*score/100);});
+  let c=0;const gv=document.getElementById('gaugeVal');
+  (function t(){c+=Math.max(1,score/40);if(c<score){gv.textContent=Math.floor(c)+'%';requestAnimationFrame(t)}else gv.textContent=score+'%'})();
+  document.getElementById('hitChips').innerHTML=hits.slice(0,14).map(h=>`<span class="mk-chip">${h}</span>`).join('')||'<span class="mk-chip">paste a longer JD</span>';
+  document.getElementById('missChips').innerHTML=[...misses].slice(0,8).map(m=>`<span class="mk-chip">${m}</span>`).join('')||'<span class="mk-chip">none detected 🎯</span>';
+  const v=document.getElementById('verdict');
+  v.innerHTML=score>=75?'<b>Strong match.</b> My core stack covers most of this role — worth a conversation. <a href="mailto:berketayfunakseki@gmail.com" style="color:var(--mint)">Email me →</a>':
+    score>=45?'<b>Solid overlap.</b> I cover the fundamentals; the gaps are learnable — and I learn fast. <a href="mailto:berketayfunakseki@gmail.com" style="color:var(--mint)">Let\u2019s talk →</a>':
+    '<b>Honest answer: partial match.</b> Some of this stack is new to me — but check the case studies above to see how quickly I ship in new territory.';
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+// ── VISITOR COUNTER ──
+fetch('https://api.counterapi.dev/v1/berketayfunakseki/portfolio/up')
+  .then(r=>r.json()).then(d=>{
+    const n=(d.count||0).toLocaleString();
+    const a=document.getElementById('vcNum'),b=document.getElementById('vcNum2');
+    if(a)a.textContent=n;if(b)b.textContent=n;
+  }).catch(()=>{});
+
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050810;--bg2:#0A0F1D;--mint:#00E5B0;--mint-d:#00C299;--cyan:#22D3EE;
+  --violet:#8B7FFF;--amber:#FFB84D;--white:#EDF2FF;--muted:#7C8AA5;--dim:#4A5568;
+  --border:rgba(255,255,255,0.07);--glass:rgba(12,18,33,0.6);
+  --fd:'Space Grotesk',sans-serif;--fb:'Inter',sans-serif;--fm:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.19,1,.22,1);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--fb);line-height:1.65;overflow-x:hidden}
+::selection{background:var(--mint);color:var(--bg)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--mint-d);border-radius:3px}
+
+/* engineering mode theme shift */
+body.eng{--bg:#020403;--bg2:#04120C;--glass:rgba(4,18,12,0.7)}
+body.eng .eng-only{display:block}
+body.eng .rec-only{display:none}
+.eng-only{display:none}
+
+#glow{position:fixed;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,176,.055) 0%,transparent 60%);pointer-events:none;z-index:1;transform:translate(-50%,-50%)}
+#progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--mint),var(--cyan),var(--violet));z-index:200}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:rgba(5,8,16,.72);backdrop-filter:blur(22px);border-bottom:1px solid var(--border)}
+.logo{font-family:var(--fm);font-size:14px;font-weight:700;color:var(--white);text-decoration:none}
+.logo .a{color:var(--mint)}
+.nav-r{display:flex;gap:6px;align-items:center}
+.nav-r a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:8px 14px;border-radius:8px;transition:color .2s,background .2s}
+.nav-r a:hover{color:var(--white);background:rgba(255,255,255,.04)}
+/* mode switch */
+.mode{display:flex;align-items:center;gap:10px;background:var(--glass);border:1px solid var(--border);padding:7px 14px;border-radius:100px;cursor:pointer;user-select:none;transition:border-color .3s;margin-left:8px}
+.mode:hover{border-color:rgba(0,229,176,.35)}
+.mode-label{font-family:var(--fm);font-size:11px;color:var(--muted);letter-spacing:.04em}
+body.eng .mode-label{color:var(--mint)}
+.sw{width:34px;height:18px;background:rgba(255,255,255,.1);border-radius:100px;position:relative;transition:background .3s}
+.sw::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--muted);transition:left .3s var(--ease),background .3s}
+body.eng .sw{background:rgba(0,229,176,.25)}
+body.eng .sw::after{left:18px;background:var(--mint)}
+
+section.blk{position:relative;z-index:2;padding:104px 48px;max-width:1160px;margin:0 auto}
+.eyebrow{font-family:var(--fm);font-size:12px;color:var(--mint);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:'';width:26px;height:1px;background:var(--mint)}
+.stitle{font-family:var(--fd);font-weight:700;font-size:clamp(30px,4.6vw,50px);letter-spacing:-.025em;line-height:1.06;margin-bottom:18px}
+.ssub{font-size:16px;color:var(--muted);max-width:560px;margin-bottom:52px}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* HERO */
+#hero{min-height:92vh;position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:150px 48px 60px;max-width:1160px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;gap:9px;font-family:var(--fm);font-size:12px;color:var(--mint);background:rgba(0,229,176,.07);border:1px solid rgba(0,229,176,.22);padding:7px 16px;border-radius:100px;width:fit-content;margin-bottom:30px}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hname{font-family:var(--fd);font-weight:700;font-size:clamp(44px,8vw,100px);line-height:.98;letter-spacing:-.04em;margin-bottom:18px}
+.hname .grad{background:linear-gradient(120deg,var(--mint),var(--cyan) 55%,var(--violet));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hrole{font-family:var(--fm);font-size:clamp(14px,1.8vw,17px);color:var(--muted);margin-bottom:30px}
+.hrole b{color:var(--white);font-weight:500}
+.hdesc{font-size:clamp(15px,1.5vw,18px);color:var(--muted);max-width:600px;line-height:1.75;margin-bottom:38px}
+.hdesc strong{color:var(--white);font-weight:500}
+.hact{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px}
+.btn{font-size:14px;font-weight:600;text-decoration:none;padding:14px 28px;border-radius:11px;display:inline-flex;align-items:center;gap:9px;transition:transform .25s var(--ease),box-shadow .3s,background .25s,border-color .25s}
+.b1{color:var(--bg);background:var(--mint);box-shadow:0 4px 22px rgba(0,229,176,.22)}
+.b1:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,229,176,.42);background:var(--mint-d)}
+.b2{color:var(--white);border:1px solid var(--border)}
+.b2:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.03)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.stat{background:var(--bg);padding:28px 24px;transition:background .35s}
+.stat:hover{background:var(--bg2)}
+.stat-n{font-family:var(--fd);font-size:clamp(28px,3.6vw,42px);font-weight:700;line-height:1;background:linear-gradient(135deg,var(--white),var(--mint));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat-l{font-size:11px;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:.08em}
+
+/* WHY HIRE ME */
+.why{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.wcard{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:28px;transition:border-color .3s,transform .3s var(--ease);backdrop-filter:blur(8px)}
+.wcard:hover{border-color:rgba(0,229,176,.28);transform:translateY(-3px)}
+.wico{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px;background:linear-gradient(135deg,rgba(0,229,176,.12),rgba(34,211,238,.07));border:1px solid rgba(0,229,176,.18)}
+.wt{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--white);margin-bottom:9px}
+.wd{font-size:13.5px;color:var(--muted);line-height:1.7}
+
+/* CASE STUDIES */
+.case{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:38px;margin-bottom:26px;backdrop-filter:blur(8px);transition:border-color .3s}
+.case:hover{border-color:rgba(0,229,176,.2)}
+.case-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.case-cat{font-family:var(--fm);font-size:10px;padding:5px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:.06em;display:inline-block;margin-bottom:10px}
+.cat-ml{color:var(--mint);background:rgba(0,229,176,.08);border:1px solid rgba(0,229,176,.22)}
+.cat-ai{color:var(--cyan);background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.22)}
+.cat-game{color:var(--violet);background:rgba(139,127,255,.08);border:1px solid rgba(139,127,255,.22)}
+.case-name{font-family:var(--fd);font-size:26px;font-weight:700;letter-spacing:-.015em}
+.case-sub{font-size:13.5px;color:var(--muted);margin-top:4px}
+.ghlink{font-family:var(--fm);font-size:12.5px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .2s;white-space:nowrap;padding-top:6px}
+.ghlink:hover{color:var(--mint)}
+.ghlink svg{width:15px;height:15px}
+.spec{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.spec-b{background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:12px;padding:15px 17px}
+.spec-l{font-family:var(--fm);font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.spec-v{font-size:13px;color:var(--white);font-weight:500;line-height:1.5}
+.spec-v.hl{color:var(--mint);font-family:var(--fm)}
+.ps{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:14px}
+.ps strong{color:var(--white);font-weight:600}
+/* engineering-mode deep dive */
+.arch{font-family:var(--fm);font-size:12px;color:var(--cyan);background:#020806;border:1px solid rgba(34,211,238,.15);border-radius:12px;padding:22px;overflow-x:auto;white-space:pre;line-height:1.9;margin:18px 0}
+.dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:20px}
+.dec h5{font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.dec.why h5{color:var(--violet)}
+.dec.les h5{color:var(--amber)}
+.dec ul{list-style:none}
+.dec li{font-size:13px;color:var(--muted);line-height:1.7;padding:9px 0 9px 16px;border-left:2px solid;margin-bottom:2px}
+.dec.why li{border-color:rgba(139,127,255,.3)}
+.dec.les li{border-color:rgba(255,184,77,.3)}
+.dec li b{color:var(--white)}
+.stack-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.stk{font-family:var(--fm);font-size:11px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--border);padding:4px 11px;border-radius:6px}
+
+/* THESIS */
+.thesis{background:linear-gradient(135deg,var(--glass),rgba(139,127,255,.04));border:1px solid var(--border);border-radius:22px;padding:44px;display:grid;grid-template-columns:1.15fr 1fr;gap:52px;backdrop-filter:blur(8px)}
+.tht{font-family:var(--fd);font-size:19px;font-weight:700;line-height:1.4;margin-bottom:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{font-family:var(--fm);font-size:11px;color:var(--cyan);background:rgba(34,211,238,.07);border:1px solid rgba(34,211,238,.17);padding:5px 11px;border-radius:6px}
+.thab{font-size:13.5px;color:var(--muted);line-height:1.85}
+.formula{font-family:Georgia,serif;font-style:italic;font-size:15px;color:var(--white);background:rgba(0,0,0,.3);border:1px solid rgba(139,127,255,.2);border-radius:12px;padding:20px;text-align:center;margin:18px 0;letter-spacing:.02em}
+.formula sub,.formula sup{font-size:10px}
+.fnote{font-family:var(--fm);font-size:11px;color:var(--dim);line-height:1.6}
+.finds{display:flex;flex-direction:column;gap:18px}
+.find{display:flex;gap:16px;align-items:flex-start}
+.fnum{font-family:var(--fd);font-size:24px;font-weight:700;line-height:1.1;min-width:44px;background:linear-gradient(135deg,var(--mint),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ftxt{font-size:13.5px;color:var(--muted);line-height:1.6}
+.ftxt b{color:var(--white)}
+
+/* JSON RESUME */
+.jr{background:#020806;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.jr-head{background:rgba(255,255,255,.03);padding:13px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;font-family:var(--fm);font-size:12px}
+.jr-get{color:var(--mint);background:rgba(0,229,176,.1);padding:3px 9px;border-radius:5px;font-weight:700}
+.jr-url{color:var(--muted)}
+.jr-body{padding:24px;font-family:var(--fm);font-size:12.5px;line-height:1.85;overflow-x:auto;white-space:pre}
+.jk{color:var(--violet)}.js{color:var(--mint)}.jn{color:var(--cyan)}
+
+/* CONTACT */
+#contact{text-align:center}
+#contact .ssub{margin:0 auto 46px}
+.cl{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.clink{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--white);background:var(--glass);border:1px solid var(--border);padding:15px 24px;border-radius:13px;text-decoration:none;transition:transform .3s var(--ease),border-color .3s,background .3s;backdrop-filter:blur(8px)}
+.clink:hover{transform:translateY(-4px);border-color:rgba(0,229,176,.35);background:rgba(0,229,176,.05)}
+.clink svg{width:18px;height:18px;color:var(--mint)}
+
+footer{position:relative;z-index:2;padding:36px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;max-width:1160px;margin:0 auto}
+footer p{font-family:var(--fm);font-size:11.5px;color:var(--dim)}
+
+@media(max-width:900px){
+  nav{padding:14px 20px}.nav-r a:not(.mode){display:none}
+  section.blk{padding:72px 20px}#hero{padding:120px 20px 56px}
+  .stats{grid-template-columns:1fr 1fr}.why{grid-template-columns:1fr}
+  .spec{grid-template-columns:1fr}.dec-grid{grid-template-columns:1fr}
+  .thesis{grid-template-columns:1fr;gap:32px;padding:28px}
+  .case{padding:26px}footer{flex-direction:column;gap:12px;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}#glow{display:none}}
+
+/* MATCH ME */
+.match-box{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:36px;backdrop-filter:blur(8px)}
+.match-ta{width:100%;min-height:150px;background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:12px;padding:16px;color:var(--white);font-family:var(--fb);font-size:14px;line-height:1.6;resize:vertical;transition:border-color .25s}
+.match-ta:focus{outline:none;border-color:rgba(0,229,176,.4)}
+.match-ta::placeholder{color:var(--dim)}
+.match-btn{margin-top:16px;font-size:14px;font-weight:600;color:var(--bg);background:var(--mint);border:none;padding:13px 30px;border-radius:11px;cursor:pointer;font-family:var(--fb);transition:transform .2s,box-shadow .3s,background .2s;box-shadow:0 4px 20px rgba(0,229,176,.2)}
+.match-btn:hover{transform:translateY(-2px);background:var(--mint-d);box-shadow:0 10px 32px rgba(0,229,176,.4)}
+.match-res{display:none;margin-top:32px;padding-top:32px;border-top:1px solid var(--border)}
+.match-res.show{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;animation:mfade .6s var(--ease)}
+@keyframes mfade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.gauge{position:relative;width:150px;height:150px}
+.gauge svg{transform:rotate(-90deg)}
+.gauge .bgc{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
+.gauge .fgc{fill:none;stroke:url(#gaugeGrad);stroke-width:10;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset 1.2s var(--ease)}
+.gauge-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gauge-num b{font-family:var(--fd);font-size:34px;font-weight:700;color:var(--white)}
+.gauge-num span{font-family:var(--fm);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.mk-title{font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.mk-hit .mk-title{color:var(--mint)}
+.mk-miss .mk-title{color:var(--amber)}
+.mk-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.mk-chip{font-family:var(--fm);font-size:11px;padding:4px 11px;border-radius:6px}
+.mk-hit .mk-chip{color:var(--mint);background:rgba(0,229,176,.08);border:1px solid rgba(0,229,176,.22)}
+.mk-miss .mk-chip{color:var(--amber);background:rgba(255,184,77,.07);border:1px solid rgba(255,184,77,.2)}
+.match-verdict{font-size:14px;color:var(--muted);line-height:1.7;margin-top:6px}
+.match-verdict b{color:var(--white)}
+.match-note{font-family:var(--fm);font-size:11px;color:var(--dim);margin-top:14px}
+.vcount{display:inline-flex;align-items:center;gap:7px}
+.vcount .vd{width:6px;height:6px;border-radius:50%;background:var(--mint);animation:pulse 2s infinite}
+@media(max-width:700px){.match-res.show{grid-template-columns:1fr;justify-items:center;text-align:center}.mk-chips{justify-content:center}}
+
+</style>
+</head>
+<body>
+<div id="glow"></div>
+<div id="progress"></div>
+<nav id="nav">
+  <a href="#hero" class="logo">berke<span class="a">.</span>akseki</a>
+  <div class="nav-r">
+    <a href="#why">Why Me</a>
+    <a href="#work">Case Studies</a>
+    <a href="#research">Thesis</a>
+    <a href="#match">Match Me</a>
+    <a href="#contact">Contact</a>
+    <div class="mode" id="modeToggle" title="Toggle Engineering Mode">
+      <span class="mode-label rec-only">Recruiter View</span>
+      <span class="mode-label eng-only">Engineering Mode</span>
+      <div class="sw"></div>
+    </div>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="badge"><span class="dot"></span>Available for junior roles — Zurich · Basel · Zug · Milan</div>
+  <h1 class="hname">Berke Tayfun<br><span class="grad">Akseki.</span></h1>
+  <div class="hrole rec-only">Backend Engineer <b>·</b> Machine Learning Engineer <b>·</b> Data Engineer</div>
+  <div class="hrole eng-only" style="color:var(--mint)">&gt; building containerized ML APIs &amp; data pipelines — python · fastapi · docker</div>
+  <p class="hdesc rec-only"><strong>CS + Management graduate</strong> from LUISS Guido Carli, Rome (Jul 2026). I ship end-to-end: data ingestion → models → REST APIs → Docker → CI/CD. Six projects, all public on GitHub. Toggle <strong>Engineering Mode</strong> ↗ for architecture diagrams and design decisions.</p>
+  <p class="hdesc eng-only">Every project below includes real architecture, honest engineering trade-offs, and lessons from things that broke. No inflated metrics — everything here is verifiable in the repos.</p>
+  <div class="hact">
+    <a href="#work" class="btn b1">View case studies <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a href="BerkeTayfunAksekiCV_FINAL.pdf" class="btn b2" download>Download CV</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n" data-c="6" data-s="+">0</div><div class="stat-l">Shipped projects</div></div>
+    <div class="stat"><div class="stat-n" data-c="200" data-s="+">0</div><div class="stat-l">Live listings indexed</div></div>
+    <div class="stat"><div class="stat-n" data-c="21" data-s="">0</div><div class="stat-l">Regions analysed in R</div></div>
+    <div class="stat"><div class="stat-n" data-c="4" data-s="">0</div><div class="stat-l">Languages spoken</div></div>
+  </div>
+</section>
+
+<section id="why" class="blk">
+  <div class="eyebrow reveal">Executable value</div>
+  <h2 class="stitle reveal">Why hire me?</h2>
+  <p class="ssub reveal">Four concrete reasons, not adjectives.</p>
+  <div class="why">
+    <div class="wcard reveal"><div class="wico">🎓</div><div class="wt">Dual-track tech + strategy degree</div><div class="wd">Management and Computer Science at LUISS Rome — I write production code and can read a P&L. Thesis used difference-in-differences econometrics on real Eurostat data.</div></div>
+    <div class="wcard reveal"><div class="wico">⚙️</div><div class="wt">End-to-end system ownership</div><div class="wd">I don't stop at scripts. Jobscope and the RAG assistant run as containerized FastAPI services with JWT auth, CI via GitHub Actions, and documented repos.</div></div>
+    <div class="wcard reveal"><div class="wico">📊</div><div class="wt">Analytics depth across 3 stacks</div><div class="wd">Python for ML pipelines, R for econometric panel analysis, SQL for storage — plus Power BI and KNIME from client-facing team projects.</div></div>
+    <div class="wcard reveal"><div class="wico">🚀</div><div class="wt">Zero-friction relocation</div><div class="wd">Ready to relocate to Zurich, Basel, Zug or Milan. Non-EU — I say it upfront and target employers with sponsorship experience. Available immediately.</div></div>
+  </div>
+</section>
+<section id="work" class="blk">
+  <div class="eyebrow reveal">Proof of work</div>
+  <h2 class="stitle reveal">Case studies</h2>
+  <p class="ssub reveal"><span class="rec-only">Problem → solution → result. Toggle Engineering Mode for architecture and design decisions.</span><span class="eng-only">Full technical breakdown: architecture, trade-offs, and what broke along the way.</span></p>
+
+  <!-- JOBSCOPE -->
+  <article class="case reveal">
+    <div class="case-top">
+      <div>
+        <span class="case-cat cat-ml">ML Pipeline · Backend</span>
+        <div class="case-name">Jobscope</div>
+        <div class="case-sub">Swiss / EU job-market tracker — built to solve my own job search</div>
+      </div>
+      <a href="https://github.com/berketayfunakseki/jobscope" target="_blank" rel="noopener" class="ghlink"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>Source</a>
+    </div>
+    <div class="spec">
+      <div class="spec-b"><div class="spec-l">Pipeline</div><div class="spec-v">RemoteOK + Adzuna APIs → FastAPI → TF-IDF engine → SQLite</div></div>
+      <div class="spec-b"><div class="spec-l">Scoring</div><div class="spec-v">TF-IDF vectorisation + cosine similarity, ranked 0–100</div></div>
+      <div class="spec-b"><div class="spec-l">Scale</div><div class="spec-v hl">200+ live listings, URL-normalised dedup</div></div>
+    </div>
+    <p class="ps"><strong>Problem.</strong> Tracking junior roles across Swiss and EU job boards manually meant duplicates, stale posts, and no way to rank fit.</p>
+    <p class="ps"><strong>Solution.</strong> An automated aggregation pipeline: fetch from two APIs, normalise URLs to kill duplicates, score every posting against my candidate profile with TF-IDF cosine similarity, and serve everything through a JWT-authenticated FastAPI backend in Docker.</p>
+    <div class="eng-only">
+      <div class="arch">[RemoteOK API]   [Adzuna API]
+       \             /
+        v           v
+   [Ingestion — Python requests]
+              |
+   [Dedup — normalised URL hash]
+              |
+   [TF-IDF matrix]  &lt;──&gt;  [candidate profile doc]
+              |  (cosine similarity → score 0–100)
+              v
+        [SQLite]  &lt;──  [FastAPI + JWT]  &lt;──  client</div>
+      <div class="dec-grid">
+        <div class="dec why"><h5>// Engineering decisions</h5><ul>
+          <li><b>Why FastAPI?</b> Async I/O for concurrent external API calls without blocking; Pydantic gives free payload validation.</li>
+          <li><b>Why SQLite?</b> Read-heavy workload with batch writes — a Postgres container would add ops cost for zero benefit at this scale.</li>
+          <li><b>Why TF-IDF over LLM embeddings?</b> Job descriptions are keyword-dense; sparse vectors get comparable ranking quality at zero compute cost and no API dependency.</li>
+        </ul></div>
+        <div class="dec les"><h5>// Lessons learned</h5><ul>
+          <li><b>Duplicates were the real enemy.</b> The same posting appears across boards with different URLs — normalising before hashing fixed silent double-counting.</li>
+          <li><b>Future work:</b> Postgres migration, scheduled refresh via cron, and response caching on the scored-jobs endpoint.</li>
+        </ul></div>
+      </div>
+    </div>
+    <div class="stack-row"><span class="stk">FastAPI</span><span class="stk">scikit-learn</span><span class="stk">SQLite</span><span class="stk">Docker</span><span class="stk">JWT</span><span class="stk">Pydantic</span></div>
+  </article>
+
+  <!-- RAG -->
+  <article class="case reveal">
+    <div class="case-top">
+      <div>
+        <span class="case-cat cat-ai">Applied AI · DevOps</span>
+        <div class="case-name">Regulatory RAG Assistant</div>
+        <div class="case-sub">Retrieval-augmented Q&amp;A over regulatory PDF documents</div>
+      </div>
+      <a href="https://github.com/berketayfunakseki/regulatory-rag-assistant" target="_blank" rel="noopener" class="ghlink"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>Source</a>
+    </div>
+    <div class="spec">
+      <div class="spec-b"><div class="spec-l">Ingestion</div><div class="spec-v">PDF parsing → chunking → embeddings</div></div>
+      <div class="spec-b"><div class="spec-l">Retrieval</div><div class="spec-v">FAISS vector index, semantic similarity search</div></div>
+      <div class="spec-b"><div class="spec-l">Delivery</div><div class="spec-v hl">FastAPI REST + Streamlit UI · Docker + GitHub Actions CI</div></div>
+    </div>
+    <p class="ps"><strong>Problem.</strong> Regulatory documents are long, dense, and painful to query — keyword search misses context entirely.</p>
+    <p class="ps"><strong>Solution.</strong> A full RAG loop: ingest PDFs, chunk text, embed chunks into a FAISS index, retrieve semantically relevant passages per query, and serve results via REST plus an interactive Streamlit interface. CI runs lint and tests on every push.</p>
+    <div class="eng-only">
+      <div class="arch">[PDF / TXT docs]
+       |  parse + chunk
+       v
+[Embedding model] ──&gt; [FAISS vector index]
+                              |  top-k semantic search
+                              v
+                    [FastAPI /query endpoint]
+                     /                    \
+              [Streamlit UI]        [REST consumers]
+  CI: GitHub Actions — lint + test on push · Docker image build</div>
+      <div class="dec-grid">
+        <div class="dec why"><h5>// Engineering decisions</h5><ul>
+          <li><b>Why FAISS?</b> In-memory index gives millisecond retrieval with no external vector-DB service to run or pay for.</li>
+          <li><b>Why decouple UI from API?</b> Streamlit is for demos; the REST layer means any client can consume retrieval independently.</li>
+        </ul></div>
+        <div class="dec les"><h5>// Lessons learned</h5><ul>
+          <li><b>Chunking strategy matters more than the model.</b> Naive splits break clauses mid-sentence; overlap between chunks preserved retrieval context.</li>
+          <li><b>CI from day one</b> caught dependency breakage early — cheaper than debugging a broken container later.</li>
+        </ul></div>
+      </div>
+    </div>
+    <div class="stack-row"><span class="stk">FastAPI</span><span class="stk">FAISS</span><span class="stk">Streamlit</span><span class="stk">Docker</span><span class="stk">GitHub Actions</span></div>
+  </article>
+
+  <!-- LABYSCAPE -->
+  <article class="case reveal">
+    <div class="case-top">
+      <div>
+        <span class="case-cat cat-game">Distributed Systems · Game Dev</span>
+        <div class="case-name">Labyscape</div>
+        <div class="case-sub">2–8 player co-op horror game — sole developer, targeting Steam</div>
+      </div>
+      <span class="ghlink" style="cursor:default;opacity:.6"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>Repo not public yet</span>
+    </div>
+    <div class="spec">
+      <div class="spec-b"><div class="spec-l">Engine</div><div class="spec-v">Unity 6 URP · C# · Netcode for GameObjects</div></div>
+      <div class="spec-b"><div class="spec-l">World gen</div><div class="spec-v hl">Procedural 18×18 maze via depth-first search</div></div>
+      <div class="spec-b"><div class="spec-l">Networking</div><div class="spec-v">Host-authoritative sync, health/respawn state machines</div></div>
+    </div>
+    <p class="ps"><strong>Problem.</strong> Real-time multiplayer demands consistent world state across clients — every player must see the same maze, the same enemies, the same damage events.</p>
+    <p class="ps"><strong>Solution.</strong> Host-authoritative architecture: the host generates the DFS maze at session start and replicates it; NavMesh enemy AI, health and respawn systems synchronise through NetworkObject state. Modular day/night cycle drives difficulty.</p>
+    <div class="eng-only">
+      <div class="dec-grid">
+        <div class="dec why"><h5>// Engineering decisions</h5><ul>
+          <li><b>Why host-authoritative?</b> For a co-op game, dedicated servers are overkill — host authority prevents cheating-by-desync at zero infra cost.</li>
+          <li><b>Why DFS for maze gen?</b> Guarantees a fully connected maze with exactly one path between any two cells — no unreachable rooms, ever.</li>
+        </ul></div>
+        <div class="dec les"><h5>// Lessons learned</h5><ul>
+          <li><b>Sync what changes, not what exists.</b> Replicating the maze seed instead of the full grid cut join-time payload massively.</li>
+          <li><b>Client prediction is hard</b> — small desyncs in enemy pathing taught me why authoritative state design comes first.</li>
+        </ul></div>
+      </div>
+    </div>
+    <div class="stack-row"><span class="stk">Unity 6</span><span class="stk">C#</span><span class="stk">Netcode</span><span class="stk">NavMesh</span><span class="stk">Blender</span></div>
+
+  <!-- CHURN -->
+  <article class="case reveal">
+    <div class="case-top">
+      <div>
+        <span class="case-cat cat-ml">ML · Applied Stats</span>
+        <div class="case-name">Churn Prediction — ML API + Dashboard</div>
+        <div class="case-sub">Customer-churn classifier served via API and dashboard</div>
+      </div>
+      <a href="https://github.com/berketayfunakseki/churn-ml-api-dashboard" target="_blank" rel="noopener" class="ghlink"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>Source</a>
+    </div>
+    <div class="spec">
+      <div class="spec-b"><div class="spec-l">Pipeline</div><div class="spec-v">scikit-learn Pipeline for preprocessing + training</div></div>
+      <div class="spec-b"><div class="spec-l">Evaluation</div><div class="spec-v">Accuracy, ROC-AUC, confusion matrix</div></div>
+      <div class="spec-b"><div class="spec-l">Serving</div><div class="spec-v hl">FastAPI prediction endpoint + Streamlit dashboard</div></div>
+    </div>
+    <p class="ps"><strong>Problem.</strong> A trained model in a notebook is not useful to a business stakeholder — it needs to be queryable and visual.</p>
+    <p class="ps"><strong>Solution.</strong> Wrapped the trained classifier behind a FastAPI endpoint for programmatic access, and built a Streamlit dashboard so a non-technical reviewer can explore predictions and metrics directly.</p>
+    <div class="stack-row"><span class="stk">scikit-learn</span><span class="stk">FastAPI</span><span class="stk">Streamlit</span><span class="stk">joblib</span></div>
+  </article>
+
+  <!-- DJANGO -->
+  <article class="case reveal">
+    <div class="case-top">
+      <div>
+        <span class="case-cat cat-game">Full-Stack · Auth</span>
+        <div class="case-name">Django CRUD + Auth App</div>
+        <div class="case-sub">Full-stack book catalogue with user authentication</div>
+      </div>
+      <a href="https://github.com/berketayfunakseki/django-crud-auth-app" target="_blank" rel="noopener" class="ghlink"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>Source</a>
+    </div>
+    <div class="spec">
+      <div class="spec-b"><div class="spec-l">Auth</div><div class="spec-v">Django user registration, login, logout</div></div>
+      <div class="spec-b"><div class="spec-l">Data model</div><div class="spec-v">Full CRUD over books/authors with image uploads</div></div>
+      <div class="spec-b"><div class="spec-l">Storage</div><div class="spec-v hl">SQLite, server-rendered templates</div></div>
+    </div>
+    <p class="ps"><strong>Problem.</strong> Needed a from-scratch full-stack app to prove I understand the request/response cycle without relying on a framework's admin panel for everything.</p>
+    <p class="ps"><strong>Solution.</strong> Built views, templates, and models by hand: authentication guards on CRUD routes, image upload handling, and a clean server-rendered UI.</p>
+    <div class="stack-row"><span class="stk">Django</span><span class="stk">SQLite</span><span class="stk">HTML/CSS</span></div>
+  </article>
+</section>
+<section id="research" class="blk">
+  <div class="eyebrow reveal">Empirical rigor</div>
+  <h2 class="stitle reveal">Bachelor's thesis</h2>
+  <p class="ssub reveal">Econometric research on real EU data — the analytical foundation behind the engineering.</p>
+  <div class="thesis reveal">
+    <div>
+      <div class="tht">"Tourism Dependence and Regional Macroeconomic Resilience in Italy: The Economic Effects of the COVID-19 Shock"</div>
+      <div class="chips"><span class="chip">Difference-in-Differences</span><span class="chip">Event Study</span><span class="chip">Panel Data</span><span class="chip">R</span><span class="chip">Eurostat / ISTAT</span></div>
+      <p class="thab">Panel analysis of 21 Italian NUTS 2 regions over 2015–2024 using a continuous DiD framework with event-study specification. Identified structural labour-market hysteresis as the mechanism behind persistent post-pandemic divergence in high-tourism regions. Supervisor: Prof. Diletta Topazio, LUISS Guido Carli.</p>
+      <div class="formula">Y<sub>it</sub> = α + β(Post<sub>t</sub> × Treatment<sub>i</sub>) + γX<sub>it</sub> + δ<sub>i</sub> + λ<sub>t</sub> + ε<sub>it</sub></div>
+      <div class="fnote">β estimates the differential post-shock effect on tourism-dependent regions, with region (δ) and time (λ) fixed effects.</div>
+    </div>
+    <div class="finds">
+      <div class="find"><div class="fnum">21</div><div class="ftxt">NUTS 2 regions over a <b>10-year panel</b> (2015–2024)</div></div>
+      <div class="find"><div class="fnum">2</div><div class="ftxt"><b>Original propositions</b>: Tourism Recovery Asymmetry &amp; Structural Hysteresis</div></div>
+      <div class="find"><div class="fnum">30</div><div class="ftxt">Grade in <b>Statistics</b> — the top score in the Italian system</div></div>
+      <div class="find"><div class="fnum">R</div><div class="ftxt">Full data preparation and estimation pipeline built in <b>R</b></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk eng-only">
+  <div class="eyebrow">REST paradigm</div>
+  <h2 class="stitle">GET /api/resume</h2>
+  <p class="ssub">The CV, as a backend engineer would serve it.</p>
+  <div class="jr">
+    <div class="jr-head"><span class="jr-get">GET</span><span class="jr-url">berketayfunakseki.com/api/resume</span><span style="margin-left:auto;color:var(--mint)">200 OK</span></div>
+    <div class="jr-body">{
+  <span class="jk">"candidate"</span>: <span class="js">"Berke Tayfun Akseki"</span>,
+  <span class="jk">"education"</span>: {
+    <span class="jk">"institution"</span>: <span class="js">"LUISS Guido Carli University, Rome"</span>,
+    <span class="jk">"degree"</span>: <span class="js">"BSc Management and Computer Science (L-18)"</span>,
+    <span class="jk">"graduated"</span>: <span class="js">"2026-07"</span>
+  },
+  <span class="jk">"stack"</span>: {
+    <span class="jk">"languages"</span>: [<span class="js">"Python"</span>, <span class="js">"SQL"</span>, <span class="js">"R"</span>, <span class="js">"C#"</span>, <span class="js">"JavaScript"</span>],
+    <span class="jk">"backend"</span>: [<span class="js">"FastAPI"</span>, <span class="js">"Django"</span>, <span class="js">"Pydantic"</span>, <span class="js">"PostgreSQL"</span>, <span class="js">"SQLite"</span>],
+    <span class="jk">"ml_data"</span>: [<span class="js">"scikit-learn"</span>, <span class="js">"Pandas"</span>, <span class="js">"FAISS"</span>, <span class="js">"Power BI"</span>, <span class="js">"KNIME"</span>],
+    <span class="jk">"devops"</span>: [<span class="js">"Docker"</span>, <span class="js">"GitHub Actions"</span>, <span class="js">"CI/CD"</span>]
+  },
+  <span class="jk">"languages_spoken"</span>: { <span class="jk">"tr"</span>: <span class="js">"native"</span>, <span class="jk">"en"</span>: <span class="js">"C1"</span>, <span class="jk">"fr"</span>: <span class="js">"B2"</span>, <span class="jk">"it"</span>: <span class="js">"A2"</span> },
+  <span class="jk">"relocation"</span>: [<span class="js">"Zurich"</span>, <span class="js">"Basel"</span>, <span class="js">"Zug"</span>, <span class="js">"Milan"</span>],
+  <span class="jk">"shipped_projects"</span>: <span class="jn">6</span>,
+  <span class="jk">"available"</span>: <span class="jn">true</span>
+}</div>
+  </div>
+</section>
+
+
+<section id="match" class="blk">
+  <div class="eyebrow reveal">Try my work on me</div>
+  <h2 class="stitle reveal">Paste your job description.<br><span style="background:linear-gradient(120deg,var(--mint),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">See if I match.</span></h2>
+  <p class="ssub reveal">This runs the same TF-IDF matching logic as my Jobscope project — right here in your browser, against my real profile. My code, scoring me. No data leaves this page.</p>
+  <div class="match-box reveal">
+    <textarea id="jdInput" class="match-ta" placeholder="Paste a job description here... e.g. 'We are looking for a Junior Data Engineer with Python, SQL and Docker experience to build ETL pipelines...'"></textarea>
+    <button class="match-btn" id="matchBtn">Run match analysis</button>
+    <div class="match-res" id="matchRes">
+      <div class="gauge">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <defs><linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00E5B0"/><stop offset="100%" stop-color="#22D3EE"/></linearGradient></defs>
+          <circle class="bgc" cx="75" cy="75" r="65"/>
+          <circle class="fgc" id="gaugeArc" cx="75" cy="75" r="65"/>
+        </svg>
+        <div class="gauge-num"><b id="gaugeVal">0%</b><span>match</span></div>
+      </div>
+      <div>
+        <div class="mk-hit"><div class="mk-title">// Matched in my stack</div><div class="mk-chips" id="hitChips"></div></div>
+        <div class="mk-miss"><div class="mk-title">// Not in my stack (yet)</div><div class="mk-chips" id="missChips"></div></div>
+        <p class="match-verdict" id="verdict"></p>
+        <p class="match-note">Keyword-frequency matching — same core idea as github.com/berketayfunakseki/jobscope</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="blk">
+  <div class="eyebrow reveal" style="justify-content:center">Get in touch</div>
+  <h2 class="stitle reveal">Let's talk.</h2>
+  <p class="ssub reveal">Actively looking for junior roles. If you're hiring, reach out — I reply fast.</p>
+  <div class="cl reveal">
+    <a href="mailto:berketayfunakseki@gmail.com" class="clink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email</a>
+    <a href="https://linkedin.com/in/berke-tayfun-akseki-489b842ba" target="_blank" rel="noopener" class="clink"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+    <a href="https://github.com/berketayfunakseki" target="_blank" rel="noopener" class="clink"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+    <a href="BerkeTayfunAksekiCV_FINAL.pdf" class="clink" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9,15 12,18 15,15"/></svg>Download CV</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Berke Tayfun Akseki</p>
+  <p class="rec-only vcount"><span class="vd"></span><span id="vcNum">—</span>&nbsp;visitors · Hand-built, no frameworks</p>
+  <p class="eng-only vcount"><span class="vd"></span>total_visits: <span id="vcNum2">—</span> · vanilla JS · GitHub Pages</p>
+</footer>
+
+<script>
+const glow=document.getElementById('glow');
+addEventListener('mousemove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
+addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById('progress').style.width=(scrollY/h*100)+'%';
+},{passive:true});
+const mt=document.getElementById('modeToggle');
+if(localStorage.getItem('eng')==='1')document.body.classList.add('eng');
+mt.addEventListener('click',()=>{
+  document.body.classList.toggle('eng');
+  localStorage.setItem('eng',document.body.classList.contains('eng')?'1':'0');
+});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const co=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const el=e.target,t=+el.dataset.c,s=el.dataset.s||'';let c=0;const st=t/38;
+  (function tick(){c+=st;if(c<t){el.textContent=Math.floor(c)+s;requestAnimationFrame(tick)}else el.textContent=t+s})();
+  co.unobserve(el);
+}),{threshold:.5});
+document.querySelectorAll('[data-c]').forEach(el=>co.observe(el));
+
+// ── JD MATCHER (client-side TF-style keyword match) ──
+const PROFILE = {
+  "python":3,"sql":3,"fastapi":3,"docker":3,"scikit-learn":2,"sklearn":2,"pandas":2,"numpy":2,
+  "r":2,"machine learning":3,"ml":3,"data analysis":2,"data analytics":2,"etl":2,"api":2,"rest":2,
+  "rag":2,"faiss":2,"nlp":1,"tf-idf":2,"streamlit":2,"django":2,"postgresql":2,"postgres":2,"sqlite":2,
+  "git":2,"github":2,"ci/cd":2,"github actions":2,"power bi":2,"knime":1,"excel":1,"jwt":1,"pydantic":1,
+  "c#":2,"unity":2,"javascript":1,"html":1,"css":1,"data engineering":2,"backend":3,"pipelines":2,
+  "statistics":2,"econometrics":2,"panel data":1,"dashboards":1,"kpi":1,"feature engineering":1,
+  "english":1,"french":1,"italian":1,"turkish":1,"bachelor":1,"computer science":2,"junior":1,"visualization":1,"visualisation":1
+};
+const COMMON = new Set(["aws","kubernetes","react","java","scala","spark","hadoop","tensorflow","pytorch","go","golang","rust","c++","azure","gcp","kafka","airflow","tableau","node","typescript","php","ruby","swift","kotlin","mongodb","redis","graphql","terraform","jenkins","snowflake","databricks","dbt"]);
+document.getElementById('matchBtn').addEventListener('click',()=>{
+  const jd=document.getElementById('jdInput').value.toLowerCase();
+  if(jd.trim().length<30){document.getElementById('jdInput').style.borderColor='rgba(255,184,77,.5)';return;}
+  let hitW=0,totW=0;const hits=[],misses=new Set();
+  for(const[kw,w]of Object.entries(PROFILE)){
+    const re=new RegExp('\\b'+kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b');
+    if(re.test(jd)){hitW+=w;totW+=w;hits.push(kw);}
+  }
+  for(const kw of COMMON){
+    if(new RegExp('\\b'+kw.replace(/[+#]/g,'\\$&')+'\\b').test(jd)){misses.add(kw);totW+=1.2;}
+  }
+  let score=totW>0?Math.round(hitW/totW*100):0;
+  if(hits.length>=5)score=Math.max(score,62);
+  score=Math.min(score,97);
+  const res=document.getElementById('matchRes');res.classList.add('show');
+  const arc=document.getElementById('gaugeArc');
+  requestAnimationFrame(()=>{arc.style.strokeDashoffset=408-(408*score/100);});
+  let c=0;const gv=document.getElementById('gaugeVal');
+  (function t(){c+=Math.max(1,score/40);if(c<score){gv.textContent=Math.floor(c)+'%';requestAnimationFrame(t)}else gv.textContent=score+'%'})();
+  document.getElementById('hitChips').innerHTML=hits.slice(0,14).map(h=>`<span class="mk-chip">${h}</span>`).join('')||'<span class="mk-chip">paste a longer JD</span>';
+  document.getElementById('missChips').innerHTML=[...misses].slice(0,8).map(m=>`<span class="mk-chip">${m}</span>`).join('')||'<span class="mk-chip">none detected 🎯</span>';
+  const v=document.getElementById('verdict');
+  v.innerHTML=score>=75?'<b>Strong match.</b> My core stack covers most of this role — worth a conversation. <a href="mailto:berketayfunakseki@gmail.com" style="color:var(--mint)">Email me →</a>':
+    score>=45?'<b>Solid overlap.</b> I cover the fundamentals; the gaps are learnable — and I learn fast. <a href="mailto:berketayfunakseki@gmail.com" style="color:var(--mint)">Let\u2019s talk →</a>':
+    '<b>Honest answer: partial match.</b> Some of this stack is new to me — but check the case studies above to see how quickly I ship in new territory.';
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+// ── VISITOR COUNTER ──
+fetch('https://api.counterapi.dev/v1/berketayfunakseki/portfolio/up')
+  .then(r=>r.json()).then(d=>{
+    const n=(d.count||0).toLocaleString();
+    const a=document.getElementById('vcNum'),b=document.getElementById('vcNum2');
+    if(a)a.textContent=n;if(b)b.textContent=n;
+  }).catch(()=>{});
+
+</script>
+</body>
+</html>
