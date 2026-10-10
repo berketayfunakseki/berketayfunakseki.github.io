@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Berke Tayfun Akseki</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0D13;--panel:#10141D;--line:#212A3B;--text:#E9EDF5;--dim:#9AA4B8;--faint:#6E7A8F;--amber:#FFB454;--mint:#3DDBA4;--pink:#FF8FA3;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100svh;display:grid;place-items:center;background:var(--bg);color:var(--text);font:15px/1.7 'IBM Plex Mono',ui-monospace,monospace;padding:24px}
+main{width:100%;max-width:620px}
+h1{font:800 clamp(72px,18vw,140px)/1 'Syne',sans-serif;letter-spacing:-.03em;background:linear-gradient(92deg,var(--amber),var(--pink),var(--mint));-webkit-background-clip:text;background-clip:text;color:transparent}
+.term{margin-top:28px;background:#0C0F16;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.bar{display:flex;gap:7px;padding:11px 16px;border-bottom:1px solid var(--line);background:#151B28}
+.bar i{width:11px;height:11px;border-radius:50%}
+pre{padding:18px 20px;white-space:pre-wrap;word-break:break-word;color:var(--dim)}
+.ok{color:var(--mint)}.err{color:var(--pink)}.am{color:var(--amber)}
+a{color:var(--amber)}
+.home{display:inline-block;margin-top:26px;padding:12px 22px;border-radius:11px;background:var(--amber);color:#0A0D13;font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+<main>
+  <h1>404</h1>
+  <div class="term">
+    <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i></div>
+<pre><span class="ok">berke@akseki</span>:~$ cd <span id="path">this-page</span>
+<span class="err">cd: no such file or directory</span>
+
+<span class="ok">berke@akseki</span>:~$ ls
+<a href="/">index.html</a>  <a href="/#work">projects/</a>  <a href="/BerkeTayfunAksekiCV.pdf">BerkeTayfunAksekiCV.pdf</a>
+
+<span class="am">#</span> the page you wanted isn't here — the portfolio is.</pre>
+  </div>
+  <a class="home" href="/">← back to the portfolio</a>
+</main>
+<script>document.getElementById('path').textContent = decodeURIComponent(location.pathname.replace(/^\//, '')) || 'this-page';</script>
+</body>
+</html>
